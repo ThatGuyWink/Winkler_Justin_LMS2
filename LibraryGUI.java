@@ -1,12 +1,13 @@
 import cen3024LMS.Library;
 
-/*
- * Name: Justin Winker
- * Course: CEN3024C Software Development
- * Date: 06/14/2024
- * Represents a library management system for handling books. This class manages a collection of books and interfaces with a file to persist the collection's state
-
+/**
+ * Represents a library management system for handling books.
+ * This class manages a collection of books and interfaces with a file to persist the collection's state.
+ * @author Justin Winker
+ * @version 1.0
+ * @since 2024-06-14
  */
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +24,7 @@ public class LibraryGUI extends JFrame {
     private JTable bookTable;
     private DefaultTableModel tableModel;
 
-    /*
+    /**
      * Constructor: LibraryGUI
      * Initializes the GUI components and layouts for the Library Management System.
      */
@@ -84,10 +85,9 @@ public class LibraryGUI extends JFrame {
         setVisible(true);
     }
 
-    /*
-     * Method: connectToDatabase
-     * Establishes a connection to the SQL Server database.
-     * Returns a Connection object or null if a connection failure occurs.
+    /**
+     * Establishes a connection to the SQL Server database BookLibrary
+     * @return A Connection object or null if a connection failure occurs.
      */
 
     private Connection connectToDatabase() {
@@ -102,10 +102,9 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    /*
-     * Method: loadBooks
+    /**
      * Fetches and displays all books from the database into the JTable.
-     * - ActionEvent e: the event that triggered this method
+     * @param e user enters a database containing books
      */
 
     private void loadBooks(ActionEvent e) {
@@ -127,10 +126,9 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    /*
-     * Method: addBook
-     * Adds book to the database and displays to the JTables
-     * - ActionEvent e: the event that triggered this method
+    /**
+     * Adds a book to the database and displays it in the JTable.
+     * @param e button option to add a book and is prompted necessary parameters
      */
 
     private void addBook(ActionEvent e) {
@@ -154,10 +152,9 @@ public class LibraryGUI extends JFrame {
         }
     }
 
-    /*
-     * Method: removeByBarcode
-     * Removes book by ID (barcode)
-     * - ActionEvent e: the event that triggered this method
+    /**
+     * Removes a book by ID (barcode).
+     * @param e action done to trigger this method
      */
 
     private void removeByBarcode(ActionEvent e) {
@@ -178,10 +175,10 @@ public class LibraryGUI extends JFrame {
         databaseTextField.setText("");
     }
 
-    /*
-     * Method: removeByTitle
-     * Removes book by the title of the book
-     * - ActionEvent e: the event that triggered this method
+    /**
+     * Removes a book by the title of the book.
+     * @param e the event that triggered this method
+     *          user is asked to enter title of book and press "Remove by Title" button
      */
 
     private void removeByTitle(ActionEvent e) {
@@ -202,11 +199,11 @@ public class LibraryGUI extends JFrame {
         databaseTextField.setText("");
     }
 
-    /*
-     * Method: checkOutBook
-     * Checks out book and changes the status from Available to Checked Out and adds a return date value based on users selection between 1-3 weeks
-     * - ActionEvent e: the event that triggered this method
+    /**
+     * Checks out a book, changing its status from Available to Checked Out, and adds a return date.
+     * @param e the event that triggered this method
      */
+
     private void checkOutBook(ActionEvent e) {
         String title = JOptionPane.showInputDialog(this, "Enter the title of the book to check out:", "Library Management System", JOptionPane.QUESTION_MESSAGE);
         if (title != null && !title.isEmpty()) {
@@ -242,10 +239,9 @@ public class LibraryGUI extends JFrame {
     }
 
 
-    /*
-     * Method: checkInBook
-     * Add the books back to the database and sets status back to available
-     * - ActionEvent e: the event that triggered this method
+    /**
+     * Checks in a book, setting its status back to Available.
+     * @param e the event that triggered this method
      */
 
     private void checkInBook(ActionEvent e) {
@@ -271,6 +267,11 @@ public class LibraryGUI extends JFrame {
             } databaseTextField.setText("");
         }
     }
+
+    /**
+     * Runs the methods within this file
+     * @param args command line arguments
+     */
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(LibraryGUI::new);

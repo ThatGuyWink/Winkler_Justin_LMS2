@@ -1,29 +1,32 @@
 package cen3024LMS;
 
-/*
- * Name: Justin Winker
- * Course: CEN3024C Software Development
- * Date: 06/14/2024
- * Represents a library management system for handling books. This class manages a collection of books and interfaces with a file to persist the collection's state
-
+/**
+ * Represents a library management system for handling books. This class manages a collection of books and interfaces
+ * with a file to persist the collection's state.
+ *
+ * @author Justin Winker
+ * @version 1.0
+ * @since 2024-06-14
  */
-
 
 import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
-
-/*
- * Constructor for Library
- * This initializes the library and loads the books from the specified file (database)
- * filePath is where the library data is stored
- * IOException throws and error creating or accessing the file
- */
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Library {
     private Map<Integer, Book> books = new HashMap<>();
     private String filePath;
     private Scanner scanner;
+
+    /**
+     * Initializes the library and loads the books from the specified file.
+     *
+     * @param filePath The path to the file where the library data is stored.
+     * @throws IOException If an error occurs creating or accessing the file.
+     */
 
     public Library(String filePath) throws IOException {
         this.filePath = filePath;
@@ -34,7 +37,8 @@ public class Library {
         loadBooksFromFile();  // Load books after ensuring the file exists
     }
 
-    /*
+    /**
+     * Method: loadBooksFromFile
      * Loads the books from the file the user provided
      * This method reads a text file (.txt) line by line and creates the Book object based on the data provided
      * Reads the due date from the file and sets it appropriately when creating Book objects
@@ -72,9 +76,12 @@ public class Library {
         }
     }
 
-    /*
-     * This method adds a new book to the file
-     * Method includes an ID (int datatype), title and author (String datatypes)
+    /**
+     * Adds a new book to the library and saves the current list to the file.
+     *
+     * @param id The book's ID.
+     * @param title The title of the book.
+     * @param author The author of the book.
      */
 
     public void addBook(int id, String title, String author) {
@@ -86,10 +93,21 @@ public class Library {
         }
     }
 
-   public Book getBookById(int id) {
+    /**
+     *
+     * @param id
+     * @return id (barcode)
+     */
+    public Book getBookById(int id) {
         return books.get(id);
     }
 
+    /**
+     *
+     * @param title
+     * @return title of the book
+     * Excludes being case sensitive to input
+     */
     public Book getBookByTitle(String title) {
         for (Book book : books.values()) {
             if (book.getTitle().equalsIgnoreCase(title)) {
@@ -100,21 +118,27 @@ public class Library {
     }
 
 
-    /*
-     * Removes a book from the library by its ID
+    /**
+     * Removes a book from the library by its ID and updates the file.
+     *
+     * @param id The ID of the book to remove.
+     * @return A message indicating if the book was not found.
      */
 
-    public void removeBookByID(int id) {
+    public String removeBookByID(int id) {
         if (books.containsKey(id)) {
             books.remove(id);
             saveToFile();
         } else {
             System.out.println("No book found with ID: " + id);
         }
+        return null;
     }
 
-    /*
-     * Lists all the books in the library. If it was removed it will not show. This will also provide the status of a book checked in or checked out
+    /**
+     * Lists all the books in the library, showing their current status (checked in or checked out).
+     *
+     * @return A string listing all books.
      */
 
     public String listBooks() {
@@ -125,7 +149,7 @@ public class Library {
         return listing.toString();
     }
 
-    /*
+    /**
      *  Saves the current list of books to the file.
      *  Method overwrites the existing file the with updated data
      */
@@ -147,8 +171,10 @@ public class Library {
         }
     }
 
-    /*
-     * Removes a book from the library by its title
+    /**
+     * Removes a book from the library by its title and updates the file.
+     *
+     * @param title The title of the book to remove.
      */
 
     public void removeBookByTitle(String title) {
@@ -163,9 +189,11 @@ public class Library {
         }
     }
 
-    /*
-     * Checks out a book by setting it's status to checked out
-     * Checked out books by Title
+    /**
+     * Checks out a book by setting its status to "checked out" and calculating its due date based on the number of weeks specified.
+     *
+     * @param title The title of the book to check out.
+     * @param weeks The number of weeks until the book is due.
      */
 
     public void checkOutBook(String title, int weeks) {
@@ -185,9 +213,10 @@ public class Library {
     }
 
 
-    /*
-     * Checks in a book by setting it's status to checked out
-     * Checked in books by Title
+    /**
+     * Checks in a book by setting its status to "available" and removing the due date.
+     *
+     * @param title The title of the book to check in.
      */
 
     public void checkInBook(String title) {
